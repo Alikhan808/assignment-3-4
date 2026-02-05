@@ -6,10 +6,6 @@ import com.canteen.dto.Result;
 import com.canteen.exceptions.InvalidQuantityException;
 import com.canteen.exceptions.MenuItemNotAvailableException;
 import com.canteen.exceptions.OrderNotFoundException;
-import com.canteen.repository.CustomerRepository;
-import com.canteen.repository.MenuItemRepository;
-import com.canteen.repository.OrderItemRepository;
-import com.canteen.repository.OrderRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
