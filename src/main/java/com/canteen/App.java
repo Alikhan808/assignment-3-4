@@ -21,7 +21,7 @@ public class App {
         DbConfig cfg = new DbConfig(
                 "jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres",
                 "postgres.lrdcyvldecniiuotppfh",
-                ""
+                "instalization"
         );
 
         DbConnectionFactory db = new DbConnectionFactory(cfg);
