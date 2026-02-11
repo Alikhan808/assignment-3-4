@@ -4,6 +4,9 @@ import com.canteen.config.DbConfig;
 import com.canteen.config.DbConnectionFactory;
 import com.canteen.domain.OrderType;
 import com.canteen.patterns.DeliveryFactory;
+import com.canteen.jdbc.JdbcCustomerRepository;
+import com.canteen.jdbc.JdbcMenuItemRepository;
+import com.canteen.jdbc.JdbcOrderRepository;
 import com.canteen.jdbc.JdbcOrderItemRepository;
 import com.canteen.service.MenuService;
 import com.canteen.service.OrderService;
@@ -12,23 +15,31 @@ import com.canteen.service.PaymentService;
 import java.util.List;
 
 public class App {
-    static void main(String[] ignoredArgs) {
+    static void main() {
+
         DbConfig cfg = new DbConfig(
                 "jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres",
                 "postgres.lrdcyvldecniiuotppfh",
-                "instalization"
-        );
+                ""
+
+                );
 
         DbConnectionFactory db = new DbConnectionFactory(cfg);
 
         var customerRepo = new JdbcCustomerRepository(db);
-        var menuRepo = new JdbcMenuItemRepository (db);
+        var menuRepo = new JdbcMenuItemRepository(db);
         var orderRepo = new JdbcOrderRepository(db);
         var orderItemRepo = new JdbcOrderItemRepository(db);
 
         var paymentService = new PaymentService();
         var menuService = new MenuService(menuRepo);
-        var orderService = new OrderService(customerRepo, menuRepo, orderRepo, orderItemRepo, paymentService);
+        var orderService = new OrderService(
+                customerRepo,
+                menuRepo,
+                orderRepo,
+                orderItemRepo,
+                paymentService
+        );
 
         System.out.println("Available menu: " + menuService.getAvailableMenu().getData());
 
