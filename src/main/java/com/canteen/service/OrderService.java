@@ -52,7 +52,6 @@ public class OrderService {
         List<OrderItem> itemsToInsert = new ArrayList<>();
         BigDecimal subtotal = BigDecimal.ZERO;
 
-        // ✅ lambda usage (language feature)
         requestedItems.forEach(req -> {
             if (req.quantity() <= 0) {
                 throw new InvalidQuantityException("Invalid quantity for menuItemId=" + req.menuItemId());
@@ -65,12 +64,9 @@ public class OrderService {
                 throw new MenuItemNotAvailableException("Menu item not available: " + mi.name());
             }
 
-            // subtotal is immutable -> recalc via outer mutable holder is messy,
-            // so we store items first and compute subtotal later.
             itemsToInsert.add(new OrderItem(0, 0, mi.id(), req.quantity(), mi.price()));
         });
 
-        // ✅ stream + reduce (lambda)
         subtotal = itemsToInsert.stream()
                 .map(oi -> oi.unitPrice().multiply(BigDecimal.valueOf(oi.quantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -84,7 +80,6 @@ public class OrderService {
                 .customerId(customerId)
                 .type(deliveryOption.type());
 
-        // ✅ interface polymorphism (DeliveryOption implementations)
         deliveryOption.apply(builder, deliveryAddress);
 
         itemsToInsert.forEach(builder::addItem);
