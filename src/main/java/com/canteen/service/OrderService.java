@@ -6,6 +6,12 @@ import com.canteen.dto.Result;
 import com.canteen.exceptions.InvalidQuantityException;
 import com.canteen.exceptions.MenuItemNotAvailableException;
 import com.canteen.exceptions.OrderNotFoundException;
+import com.canteen.repository.CustomerRepository;
+import com.canteen.repository.MenuItemRepository;
+import com.canteen.repository.OrderItemRepository;
+import com.canteen.repository.OrderRepository;
+import com.canteen.patterns.DeliveryOption;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,8 +37,11 @@ public class OrderService {
         this.paymentService = paymentService;
     }
 
-    //User story: place an order
-    public Result<Long> placeOrder(long customerId, OrderType type, String deliveryAddress, List<ItemRequest> requestedItems) {
+    public Result<Long> placeOrder(long customerId,
+                                   DeliveryOption deliveryOption,
+                                   String deliveryAddress,
+                                   List<ItemRequest> requestedItems) {
+
         if (requestedItems == null || requestedItems.isEmpty()) {
             return Result.fail("Order must contain at least 1 item");
         }
@@ -40,45 +49,48 @@ public class OrderService {
         customerRepo.findById(customerId).orElseThrow(() ->
                 new IllegalArgumentException("Customer not found: " + customerId));
 
-        // 1) validate + build items
         List<OrderItem> itemsToInsert = new ArrayList<>();
         BigDecimal subtotal = BigDecimal.ZERO;
 
-        for (ItemRequest req : requestedItems) {
-            if (req.quantity() <= 0) throw new InvalidQuantityException("Invalid quantity for menuItemId=" + req.menuItemId());
+        // ✅ lambda usage (language feature)
+        requestedItems.forEach(req -> {
+            if (req.quantity() <= 0) {
+                throw new InvalidQuantityException("Invalid quantity for menuItemId=" + req.menuItemId());
+            }
 
             MenuItem mi = menuRepo.findById(req.menuItemId()).orElseThrow(() ->
                     new IllegalArgumentException("Menu item not found: " + req.menuItemId()));
 
-            if (!mi.available()) throw new MenuItemNotAvailableException("Menu item not available: " + mi.name());
+            if (!mi.available()) {
+                throw new MenuItemNotAvailableException("Menu item not available: " + mi.name());
+            }
 
-            subtotal = subtotal.add(mi.price().multiply(BigDecimal.valueOf(req.quantity())));
+            // subtotal is immutable -> recalc via outer mutable holder is messy,
+            // so we store items first and compute subtotal later.
             itemsToInsert.add(new OrderItem(0, 0, mi.id(), req.quantity(), mi.price()));
-        }
+        });
 
-        // 2) tax rules (Singleton)
+        // ✅ stream + reduce (lambda)
+        subtotal = itemsToInsert.stream()
+                .map(oi -> oi.unitPrice().multiply(BigDecimal.valueOf(oi.quantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         BigDecimal tax = subtotal.multiply(TaxConfig.getInstance().getTaxRate());
         BigDecimal total = subtotal.add(tax).setScale(2, RoundingMode.HALF_UP);
 
-        // 3) "pay"
         paymentService.pay(customerId, total);
 
-        // 4) create order header via Builder
         Order.Builder builder = new Order.Builder()
                 .customerId(customerId)
-                .type(type);
+                .type(deliveryOption.type());
 
-        if (type == OrderType.DELIVERY) {
-            builder.deliveryAddress(deliveryAddress);
-        }
+        // ✅ interface polymorphism (DeliveryOption implementations)
+        deliveryOption.apply(builder, deliveryAddress);
 
-        for (OrderItem oi : itemsToInsert) {
-            builder.addItem(oi);
-        }
+        itemsToInsert.forEach(builder::addItem);
 
         Order order = builder.build();
 
-        // 5) persist order + items
         long orderId = orderRepo.create(order);
 
         for (OrderItem oi : itemsToInsert) {
@@ -89,10 +101,8 @@ public class OrderService {
         return Result.ok(orderId);
     }
 
-    //User story: view active orders
     public Result<List<Order>> viewActiveOrders() {
         List<Order> shells = orderRepo.findByStatus(OrderStatus.ACTIVE);
-
         List<Order> result = new ArrayList<>();
         for (Order shell : shells) {
             List<OrderItem> items = orderItemRepo.findByOrderId(shell.getId());
@@ -101,8 +111,6 @@ public class OrderService {
         }
         return Result.ok(result);
     }
-
-    // -------- User story: mark order as completed ----------
     public void markOrderCompleted(long orderId) {
         Order shell = orderRepo.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found: " + orderId));
@@ -128,6 +136,6 @@ public class OrderService {
         return built;
     }
 
-    // DTO for requests
+
     public record ItemRequest(long menuItemId, int quantity) {}
 }
