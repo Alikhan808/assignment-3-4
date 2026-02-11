@@ -2,6 +2,7 @@ package com.canteen.jdbc;
 
 import com.canteen.config.DbConnectionFactory;
 import com.canteen.domain.Customer;
+import com.canteen.repository.CustomerRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

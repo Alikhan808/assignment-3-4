@@ -7,5 +7,4 @@ import java.util.Optional;
 public interface MenuItemRepository {
     Optional<MenuItem> findById(long id);
     List<MenuItem> findAllAvailable();
-    void setAvailability(long id, boolean available);
 }

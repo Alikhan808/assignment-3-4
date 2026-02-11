@@ -2,6 +2,7 @@ package com.canteen.jdbc;
 
 import com.canteen.config.DbConnectionFactory;
 import com.canteen.domain.MenuItem;
+import com.canteen.repository.MenuItemRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,17 +60,4 @@ public class JdbcMenuItemRepository implements MenuItemRepository {
         }
     }
 
-    @Override
-    public void setAvailability(long id, boolean available) {
-        String sql = "UPDATE menu_items SET available = ? WHERE id = ?";
-        try (var conn = db.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setBoolean(1, available);
-            ps.setLong(2, id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException("DB error: set availability", e);
-        }
-    }
 }

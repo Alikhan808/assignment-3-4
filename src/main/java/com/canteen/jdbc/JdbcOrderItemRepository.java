@@ -59,4 +59,4 @@ public class JdbcOrderItemRepository implements OrderItemRepository {
             throw new RuntimeException("DB error: list order items", e);
         }
     }
-}}
+}

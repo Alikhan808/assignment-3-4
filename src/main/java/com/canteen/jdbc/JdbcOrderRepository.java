@@ -53,10 +53,13 @@ public class JdbcOrderRepository implements OrderRepository {
             ps.setLong(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) return Optional.empty();
+
+                // В Order.Builder нужно минимум 1 item, поэтому тут возвращаем "пустой" shell — items подтянет OrderItemRepository в сервисе
                 Order shell = new Order.Builder()
                         .customerId(rs.getLong("customer_id"))
                         .type(OrderType.valueOf(rs.getString("order_type")))
                         .deliveryAddress(rs.getString("delivery_address"))
+                        // временный item-заглушка НЕ добавляем, сервис соберет итоговый Order сам
                         .addItem(new com.canteen.domain.OrderItem(0, 0, 0, 1, java.math.BigDecimal.ONE))
                         .build();
 
@@ -95,7 +98,6 @@ public class JdbcOrderRepository implements OrderRepository {
             throw new RuntimeException("DB error: list orders by status", e);
         }
     }
-
 
     @Override
     public void updateStatus(long id, OrderStatus status) {
