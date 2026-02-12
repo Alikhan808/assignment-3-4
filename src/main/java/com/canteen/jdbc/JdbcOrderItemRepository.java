@@ -15,7 +15,6 @@ public class JdbcOrderItemRepository implements OrderItemRepository {
     public JdbcOrderItemRepository(DbConnectionFactory db) {
         this.db = db;
     }
-
     @Override
     public void addItem(OrderItem item) {
         String sql = """

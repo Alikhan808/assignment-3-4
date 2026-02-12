@@ -19,7 +19,6 @@ public class JdbcOrderRepository implements OrderRepository {
     public JdbcOrderRepository(DbConnectionFactory db) {
         this.db = db;
     }
-
     @Override
     public long create(Order order) {
         String sql = """

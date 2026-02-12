@@ -59,5 +59,4 @@ public class JdbcMenuItemRepository implements MenuItemRepository {
             throw new RuntimeException("DB error: list available menu items", e);
         }
     }
-
 }

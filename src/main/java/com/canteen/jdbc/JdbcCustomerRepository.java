@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public class JdbcCustomerRepository implements CustomerRepository {
     private final DbConnectionFactory db;
-
     public JdbcCustomerRepository(DbConnectionFactory db) {
         this.db = db;
     }
