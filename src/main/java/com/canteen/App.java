@@ -11,6 +11,8 @@ import com.canteen.jdbc.JdbcOrderItemRepository;
 import com.canteen.service.MenuService;
 import com.canteen.service.OrderService;
 import com.canteen.service.PaymentService;
+import com.canteen.config.DatabaseConfigLoader;
+
 
 import java.util.List;
 
@@ -18,13 +20,9 @@ public class App {
 
     static void main() {
 
-        DbConfig cfg = new DbConfig(
-                "jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres",
-                "postgres.lrdcyvldecniiuotppfh",
-                ""
-        );
-
+        DbConfig cfg = DatabaseConfigLoader.load();
         DbConnectionFactory db = new DbConnectionFactory(cfg);
+
 
         var customerRepo = new JdbcCustomerRepository(db);
         var menuRepo = new JdbcMenuItemRepository(db);
