@@ -2,15 +2,15 @@ package com.canteen;
 
 import com.canteen.config.DbConfig;
 import com.canteen.config.DbConnectionFactory;
-import com.canteen.patterns.DeliveryFactory;
-import com.canteen.patterns.DeliveryOption;
+import com.canteen.DeliveryComponent.DeliveryFactory;
+import com.canteen.DeliveryComponent.DeliveryOption;
 import com.canteen.jdbc.JdbcCustomerRepository;
-import com.canteen.jdbc.JdbcMenuItemRepository;
+import com.canteen.MenuManagementComponent.JdbcMenuItemRepository;
 import com.canteen.jdbc.JdbcOrderRepository;
 import com.canteen.jdbc.JdbcOrderItemRepository;
-import com.canteen.service.MenuService;
+import com.canteen.MenuManagementComponent.MenuService;
 import com.canteen.service.OrderService;
-import com.canteen.service.PaymentService;
+import com.canteen.BillingComponent.PaymentService;
 import com.canteen.config.DatabaseConfigLoader;
 
 

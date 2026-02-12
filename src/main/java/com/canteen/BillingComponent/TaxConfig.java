@@ -1,4 +1,4 @@
-package com.canteen.config;
+package com.canteen.BillingComponent;
 
 import java.math.BigDecimal;
 

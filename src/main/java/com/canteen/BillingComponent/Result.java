@@ -1,4 +1,4 @@
-package com.canteen.dto;
+package com.canteen.BillingComponent;
 
 public final class Result<T> {
     private final boolean success;

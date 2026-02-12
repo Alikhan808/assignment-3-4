@@ -1,6 +1,5 @@
-package com.canteen.repository;
+package com.canteen.MenuManagementComponent;
 
-import com.canteen.domain.MenuItem;
 import java.util.List;
 import java.util.Optional;
 

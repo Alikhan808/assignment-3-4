@@ -1,16 +1,20 @@
 package com.canteen.service;
 
-import com.canteen.config.TaxConfig;
-import com.canteen.domain.*;
-import com.canteen.dto.Result;
+import com.canteen.BillingComponent.PaymentService;
+import com.canteen.MenuManagementComponent.MenuItem;
+import com.canteen.OrderingComponent.Order;
+import com.canteen.OrderingComponent.OrderItem;
+import com.canteen.OrderingComponent.OrderStatus;
+import com.canteen.BillingComponent.TaxConfig;
+import com.canteen.BillingComponent.Result;
 import com.canteen.exceptions.InvalidQuantityException;
 import com.canteen.exceptions.MenuItemNotAvailableException;
 import com.canteen.exceptions.OrderNotFoundException;
-import com.canteen.repository.CustomerRepository;
-import com.canteen.repository.MenuItemRepository;
-import com.canteen.repository.OrderItemRepository;
-import com.canteen.repository.OrderRepository;
-import com.canteen.patterns.DeliveryOption;
+import com.canteen.OrderingComponent.CustomerRepository;
+import com.canteen.MenuManagementComponent.MenuItemRepository;
+import com.canteen.OrderingComponent.OrderItemRepository;
+import com.canteen.OrderingComponent.OrderRepository;
+import com.canteen.DeliveryComponent.DeliveryOption;
 
 
 import java.math.BigDecimal;

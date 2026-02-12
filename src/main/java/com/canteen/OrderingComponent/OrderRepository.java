@@ -1,7 +1,4 @@
-package com.canteen.repository;
-
-import com.canteen.domain.Order;
-import com.canteen.domain.OrderStatus;
+package com.canteen.OrderingComponent;
 
 import java.util.List;
 import java.util.Optional;

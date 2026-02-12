@@ -1,8 +1,6 @@
-package com.canteen.service;
+package com.canteen.MenuManagementComponent;
 
-import com.canteen.domain.MenuItem;
-import com.canteen.dto.Result;
-import com.canteen.repository.MenuItemRepository;
+import com.canteen.BillingComponent.Result;
 
 import java.util.List;
 

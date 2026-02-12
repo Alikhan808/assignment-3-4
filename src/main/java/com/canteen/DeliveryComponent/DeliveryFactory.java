@@ -1,4 +1,4 @@
-package com.canteen.patterns;
+package com.canteen.DeliveryComponent;
 
 public final class DeliveryFactory {
     private DeliveryFactory() {}

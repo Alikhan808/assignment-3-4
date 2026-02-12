@@ -1,7 +1,6 @@
-package com.canteen.patterns;
+package com.canteen.DeliveryComponent;
 
-import com.canteen.domain.Order;
-import com.canteen.domain.OrderType;
+import com.canteen.OrderingComponent.Order;
 
 public final class DeliveryOrder implements DeliveryOption {
     @Override

@@ -1,4 +1,4 @@
-package com.canteen.domain;
+package com.canteen.MenuManagementComponent;
 
 import java.math.BigDecimal;
 

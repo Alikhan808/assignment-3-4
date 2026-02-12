@@ -1,4 +1,6 @@
-package com.canteen.domain;
+package com.canteen.OrderingComponent;
+
+import com.canteen.DeliveryComponent.OrderType;
 
 import java.util.ArrayList;
 import java.util.Collections;

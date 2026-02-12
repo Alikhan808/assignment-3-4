@@ -1,10 +1,11 @@
 package com.canteen.jdbc;
 
+import com.canteen.OrderingComponent.OrderItem;
 import com.canteen.config.DbConnectionFactory;
-import com.canteen.domain.Order;
-import com.canteen.domain.OrderStatus;
-import com.canteen.domain.OrderType;
-import com.canteen.repository.OrderRepository;
+import com.canteen.OrderingComponent.Order;
+import com.canteen.OrderingComponent.OrderStatus;
+import com.canteen.DeliveryComponent.OrderType;
+import com.canteen.OrderingComponent.OrderRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,7 +60,7 @@ public class JdbcOrderRepository implements OrderRepository {
                         .type(OrderType.valueOf(rs.getString("order_type")))
                         .deliveryAddress(rs.getString("delivery_address"))
                         // временный item-заглушка НЕ добавляем, сервис соберет итоговый Order сам
-                        .addItem(new com.canteen.domain.OrderItem(0, 0, 0, 1, java.math.BigDecimal.ONE))
+                        .addItem(new OrderItem(0, 0, 0, 1, java.math.BigDecimal.ONE))
                         .build();
 
                 shell.setId(rs.getLong("id"));
@@ -85,7 +86,7 @@ public class JdbcOrderRepository implements OrderRepository {
                             .customerId(rs.getLong("customer_id"))
                             .type(OrderType.valueOf(rs.getString("order_type")))
                             .deliveryAddress(rs.getString("delivery_address"))
-                            .addItem(new com.canteen.domain.OrderItem(0, 0, 0, 1, java.math.BigDecimal.ONE))
+                            .addItem(new OrderItem(0, 0, 0, 1, java.math.BigDecimal.ONE))
                             .build();
                     shell.setId(rs.getLong("id"));
                     shell.setStatus(OrderStatus.valueOf(rs.getString("status")));

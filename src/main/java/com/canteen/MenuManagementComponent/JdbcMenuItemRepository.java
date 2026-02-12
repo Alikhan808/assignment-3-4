@@ -1,8 +1,6 @@
-package com.canteen.jdbc;
+package com.canteen.MenuManagementComponent;
 
 import com.canteen.config.DbConnectionFactory;
-import com.canteen.domain.MenuItem;
-import com.canteen.repository.MenuItemRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

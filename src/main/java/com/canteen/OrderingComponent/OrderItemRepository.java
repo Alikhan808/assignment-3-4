@@ -1,6 +1,5 @@
-package com.canteen.repository;
+package com.canteen.OrderingComponent;
 
-import com.canteen.domain.OrderItem;
 import java.util.List;
 
 

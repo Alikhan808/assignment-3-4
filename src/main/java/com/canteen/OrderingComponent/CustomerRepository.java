@@ -1,6 +1,5 @@
-package com.canteen.repository;
+package com.canteen.OrderingComponent;
 
-import com.canteen.domain.Customer;
 import java.util.Optional;
 
 

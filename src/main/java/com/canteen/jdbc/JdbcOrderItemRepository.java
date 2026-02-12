@@ -1,8 +1,8 @@
 package com.canteen.jdbc;
 
 import com.canteen.config.DbConnectionFactory;
-import com.canteen.domain.OrderItem;
-import com.canteen.repository.OrderItemRepository;
+import com.canteen.OrderingComponent.OrderItem;
+import com.canteen.OrderingComponent.OrderItemRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

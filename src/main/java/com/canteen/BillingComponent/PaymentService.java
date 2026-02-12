@@ -1,6 +1,4 @@
-package com.canteen.service;
-
-import com.canteen.exceptions.PaymentFailedException;
+package com.canteen.BillingComponent;
 
 import java.math.BigDecimal;
 
